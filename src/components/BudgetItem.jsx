@@ -1,4 +1,4 @@
-//helper functions
+// helper functions
 import { calculateSpentByBudget, formatCurrency, formatPercentage } from "../helpers";
 
 const BudgetItem = ({budget}) => {

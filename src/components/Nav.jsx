@@ -1,11 +1,11 @@
-//rrd imports
+// rrd imports
 import { NavLink, Form } from "react-router-dom"
 
-//library
+// library
 import { TrashIcon } from "@heroicons/react/24/solid"
 
 
-//assets
+// assets
 import logomark from "../assets/logomark.svg"
 
 const Nav = ({ userName }) => {

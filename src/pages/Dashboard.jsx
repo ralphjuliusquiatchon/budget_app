@@ -1,33 +1,35 @@
 // rrd imports
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 // helper function
-import { createBudget, createExpense, fetchData, waait } from "../helpers";
+import { createBudget, createExpense, deleteItem, fetchData, waait } from "../helpers";
 
-//components
+// components
 import Intro from "../components/Intro";
 import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
+import Table from "../components/Table";
 
-//library
+// library
 import { toast } from "react-toastify";
 
 // loader
 export function dashboardLoader(){
     const userName = fetchData("userName");
     const budgets = fetchData("budgets");
-    return { userName, budgets}
+    const expenses = fetchData("expenses");
+    return { userName, budgets, expenses}
 }
 
-//actions
+// actions
 export async function dashboardAction({request}) {
     await waait();
 
     const data = await request.formData()
     const {_action, ...values} = Object.fromEntries(data)
     
-    //new user submission
+    // new user submission
     if(_action === "newUser") {
         try {
             localStorage.setItem("userName", JSON.stringify(values.userName))
@@ -60,11 +62,24 @@ export async function dashboardAction({request}) {
                 throw new Error("There was a problem creating your expense.")
         }
     }
+
+
+    if(_action === "deleteExpense") {
+        try {
+            deleteItem({
+               key: "expenses",
+               id: values.expenseId
+            })
+            return toast.success("Expense deleted!")}
+            catch(e) {
+                throw new Error("There was a problem deleting your expense.")
+        }
+    }
     
 };
 
 const Dashboard = () => {
-    const { userName, budgets } = useLoaderData();
+    const { userName, budgets, expenses } = useLoaderData();
 
     return (
         <>
@@ -90,9 +105,26 @@ const Dashboard = () => {
                                     ))
                                 }
                             </div>
+                            {
+                                expenses && expenses.length > 0 && (
+                                    <div className="grid-md">
+                                        <h2>Recent Expenses</h2>
+                                        <Table expenses={expenses
+                                            .sort((a, b) => b.createdAt - a.createdAt)
+                                            .slice(0, 8)}
+                                        />
+                                        {expenses.length > 8 && (
+                                            <Link
+                                                to="expenses"
+                                                className="btn btn--dark"    
+                                            >
+                                                  view all expenses
+                                            </Link>
+                                        )}
+                                    </div>)
+                            }
                         </div>
-                        )
-                        : (
+                        ) : (
                         <div className="grid-sm">
                             <p>Personal budgeting is the secret to financial freedom.</p>
                             <p>Create a budget to get started!</p>

@@ -1,13 +1,13 @@
 // rrd imports
 import { Outlet, useLoaderData } from "react-router-dom";
 
-//assets
+// assets
 import wave from "../assets/wave.svg";
 
 // helper function
 import { fetchData } from "../helpers";
 
-//components
+// components
 import Nav from "../components/Nav";
 
 // loader

@@ -1,10 +1,10 @@
-//react
+// react
 import { useEffect, useRef } from "react";
 
-//rrd imports
+// rrd imports
 import { Form, useFetcher } from "react-router-dom";
 
-//library
+// library
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid"
 
 

@@ -1,9 +1,10 @@
+// rrd imports
 import { Form } from "react-router-dom";
 
-//library
+// library
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 
-//assets
+// assets
 import illustration from "../assets/illustration.jpg"
 
 
